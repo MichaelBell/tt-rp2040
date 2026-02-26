@@ -6,8 +6,10 @@
 void tt_select_design(int idx)
 {
     // Ensure all pins are set to safe defaults.
-    gpio_set_dir_all_bits(0);
-    gpio_init_mask(0xFFFFFFFF);
+    gpio_set_dir_all_bits64(0);
+    for (uint i = 0; i < NUM_BANK0_GPIOS; i++) {
+        gpio_init(i);
+    }
 
     // Enable clk, reset, and ctrl signals
     gpio_put(CLK, 0);
