@@ -25,6 +25,12 @@ int main() {
     // Uncomment to pause until the USB is connected before continuing
     while (!stdio_usb_connected());
 
+    printf("Desired freq MHz (use a multiple of 4): ");
+    scanf("%d", &freq);
+    printf("\nSetting frequency to %dMHz\n", freq);
+    freq *= 1000;
+    set_sys_clock_khz(freq, true);
+
     sleep_ms(20);
     printf("Selecting Factory Test\n");
     sleep_ms(10);
@@ -40,9 +46,12 @@ int main() {
     // Factory test counts if in0 is high
     gpio_put(IN0, 1);
 
+    gpio_set_drive_strength(CLK, GPIO_DRIVE_STRENGTH_12MA);
+
     // Initial clock doesn't register?
     tt_clock_project_once();
 
+#if 0
     int last_val = tt_get_output_byte();
     while (1) {
         //bool error = false;
@@ -66,6 +75,9 @@ int main() {
         set_sys_clock_khz(freq, true);
         printf("\nFreq now: %dMHz\n", freq / 1000);
     }
+#endif
+
+    hstx_send_clocks(0xffffffff, 1);
 
     while(1);
 }
