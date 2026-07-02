@@ -46,15 +46,15 @@ int main() {
     // Factory test counts if in0 is high
     gpio_put(IN0, 1);
 
-    gpio_set_drive_strength(CLK, GPIO_DRIVE_STRENGTH_12MA);
+    gpio_set_drive_strength(CLK, GPIO_DRIVE_STRENGTH_8MA);
 
     // Initial clock doesn't register?
     tt_clock_project_once();
 
-#if 0
+#if 1
     int last_val = tt_get_output_byte();
     while (1) {
-        //bool error = false;
+        bool error = false;
         for (int i = 0; i < 20; ++i) {
             hstx_send_clocks(8 * 5000 + 1, 1);  // Sends 32 * (8 * 5000 + 1) clocks, so we expect the counter to count up by 32.
             sleep_ms(100);
@@ -62,7 +62,7 @@ int main() {
             int diff = (val - last_val) & 0xFF;
             if (diff != 32 /* && diff != 31 */) {
                 printf("Error: ");
-                //error = true;
+                error = true;
             }
             printf("%d %d\n", diff, val);
             last_val = val;
@@ -70,7 +70,7 @@ int main() {
 
         freq += 4000;
 
-        if (/*error || */ freq > 300000) break;
+        if (error || freq > 300000) break;
 
         set_sys_clock_khz(freq, true);
         printf("\nFreq now: %dMHz\n", freq / 1000);
