@@ -20,12 +20,13 @@ add_compile_options(-Wall -Werror)
 
 # Add your source files
 add_executable(${NAME}
-    main.cpp # <-- Add source files here!
+    main.c # <-- Add source files here!
     tt_setup.c
-    hstx_clk.c
+    hstx_xfer.c
+    8b10b.c
 )
 
-#pico_generate_pio_header(${NAME} ${CMAKE_CURRENT_LIST_DIR}/hova.pio)
+pico_generate_pio_header(${NAME} ${CMAKE_CURRENT_LIST_DIR}/recv.pio)
 
 # Don't forget to link the libraries you need!
 target_link_libraries(${NAME}

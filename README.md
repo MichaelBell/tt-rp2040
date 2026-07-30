@@ -1,5 +1,7 @@
-# Tiny Tapeout 04+ demo board C example
+# 8b10b test for sky25a
 
-This firmware using the Pico C SDK gives an example of how to bring up the TT ASIC.
+Test for 8b10b decoder project on tt sky25a.
 
-See the Raspberry Pi [Getting Started with Pico](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf) guide for information on how to get set up to build the firmware.
+## Credit
+
+8b10b library from https://github.com/jaymzee/8b10b

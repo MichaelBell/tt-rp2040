@@ -1,0 +1,32 @@
+
+
+.program recv_data
+
+    nop [8]
+    in pins, 16
+
+% c-sdk {
+static inline void recv_data_program_init(PIO pio, uint sm, uint offset) {
+    const int UIO0_PIN = 25;
+
+    pio_sm_config c = recv_data_program_get_default_config(offset);
+
+    sm_config_set_in_pins(&c, UIO0_PIN);
+    sm_config_set_in_pin_count(&c, 16);
+
+    sm_config_set_in_shift(
+        &c,
+        false, // Shift-to-right = false (i.e. shift to left)
+        true,  // Autopush enabled
+        16      // Autopush threshold = 8
+    );
+
+    // We only receive, so disable the TX FIFO to make the RX FIFO deeper.
+    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_RX);
+
+    // Load our configuration
+    pio_sm_init(pio, sm, offset, &c);
+
+    pio_set_gpio_base(pio, 16);
+}
+%}
